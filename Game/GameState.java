@@ -1,8 +1,11 @@
 package Game;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.widget.Toast;
 
 import org.techtown.mypassion.AppManager;
 import org.techtown.mypassion.GraphicObject;
@@ -17,7 +20,7 @@ public class GameState implements IState {
     private Player m_player;
     private BackGround m_background;
     private GraphicObject m_keypad;
-//    private Enemy_1 enem;
+    private Enemy_1 enem;
     ArrayList<Enemy> m_enemlist= new ArrayList<Enemy>( );
     ArrayList<Missile_Player> m_pmslist= new ArrayList<Missile_Player>( );
 
@@ -38,9 +41,10 @@ public class GameState implements IState {
     }
     @Override
     public void Render(Canvas canvas) {
+//        canvas.drawColor(Color.BLACK);
         m_background.Draw(canvas);
         m_player.Draw (canvas);
-//        enem.Draw(canvas);
+//       enem.Draw(canvas);
         for(Missile_Player  pms: m_pmslist)pms.Draw(canvas);
         for( Enemy          enem: m_enemlist)enem.Draw(canvas);
 
@@ -53,6 +57,12 @@ public class GameState implements IState {
         m_player.Update(GameTime);
         m_background.Update();
 //        enem.Update(GameTime); //마냥 적한명의 위치를 이동시켜
+
+        if(System.currentTimeMillis( )-LastRegenMissile>= 700 ) { //1초간격으로 발사하는 알고리즘: LastRegenMissile는 시간을 담는 그릇일 뿐...
+            LastRegenMissile = System.currentTimeMillis();
+            m_pmslist.add(new Missile_Player(m_player.getX(), m_player.getY()));         //플레이어의 현위치에서 미사일 생성및 리스트에 등록
+        }
+
         for( int i=m_pmslist.size( )-1; i>= 0; i--) {
             Missile_Player pms= m_pmslist.get( i);
             pms.Update( );
@@ -63,11 +73,12 @@ public class GameState implements IState {
             enem.Update(GameTime);
             if(enem. state== Enemy. STATE_OUT) m_enemlist.remove( i);
         }
-        MakeEnemy();
-        if(System.currentTimeMillis( )-LastRegenMissile>= 500 ) { //1초간격으로 발사하는 알고리즘: LastRegenMissile는 시간을 담는 그릇일 뿐...
-            LastRegenMissile = System.currentTimeMillis();
-            m_pmslist.add(new Missile_Player(m_player.getX(), m_player.getY()));         //플레이어의 현위치에서 미사일 생성및 리스트에 등록
-        }
+        MakeEnemy();//적들을 발생시킴
+
+        //Player의 총을 발생시킴
+
+        CheckCollision( );
+
     }
 
     @Override
@@ -95,6 +106,21 @@ public class GameState implements IState {
     public boolean Destroy(MotionEvent event) {
         return false;
     }
+
+    public void CheckCollision( ) {
+        for( int i= m_pmslist.size( )-1; i>= 0; i--) {
+            for( int j = m_enemlist.size( )-1; j >= 0; j--) {
+                if(CollisionManager.CheckBoxToBox(
+                        m_pmslist.get(i).m_BoundBox,
+                        m_enemlist.get(j). m_BoundBox)) {
+                    m_pmslist.remove(i);
+                    m_enemlist.remove(j);
+                    return; // 일단루프에서빠져나옴
+                }
+            }
+        }
+    }
+
     public void MakeEnemy( ) {
         if(System.currentTimeMillis( )-LastRegenEnemy>= 1000 ) { //1초간격으로 발사하는 알고리즘: LastRegenEnemy는 시간을 담는 그릇일 뿐...
             //LastRegenEnemy는 밑에 코드를 실행하지 않는 이상 변하지 않고 위의 System.currentTimeMills는 계속 증가한다.
@@ -107,7 +133,7 @@ public class GameState implements IState {
             else if ( enemtype== 2)enem= new Enemy_3( );
 
             enem.movetype= randEnem.nextInt(3);//적군의 행동패턴을 결정
-            enem.setPosition(randEnem.nextInt(600), -60);//적군의 초기 위치를 결정 &&  <x축의 싸이즈 수정하기>
+            enem.setPosition(randEnem.nextInt(AppManager.getInstance().getDeviceSize().x), -60);//적군의 초기 위치를 결정 &&  <x축의 싸이즈 수정하기>
 
             m_enemlist.add( enem); // 개성이 부여된 적군을 적군무리리스트에 등록
         }

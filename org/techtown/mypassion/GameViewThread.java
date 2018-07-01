@@ -25,6 +25,7 @@ public class GameViewThread extends Thread {
                     m_gameView.Update( );
                     // SurfaceHolder를통해Surface에접근해서가져옴
                     _canvas = m_surfaceHolder.lockCanvas( null);
+                    AppManager.getInstance().setCanvas(_canvas);
                     synchronized( m_surfaceHolder) {
                         m_gameView.onDraw(_canvas); // 그림을그림
                     }

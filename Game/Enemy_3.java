@@ -14,5 +14,6 @@ public class Enemy_3 extends Enemy {
         @Override
         public void Update( long GameTime) {
             super.Update(GameTime);
+
         }
 }
