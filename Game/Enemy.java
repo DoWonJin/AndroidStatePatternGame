@@ -5,6 +5,10 @@ import android.graphics.Bitmap;
 import org.techtown.mypassion.SpriteAnimation;
 
 public class Enemy extends SpriteAnimation {
+        public static final int STATE_NORMAL= 0;
+        public static final int STATE_OUT= 1;
+        public int state= STATE_NORMAL;
+
         public static final int MOVE_PATTERN_1= 0;
         public static final int MOVE_PATTERN_2= 1;
         public static final int MOVE_PATTERN_3= 2;
@@ -41,6 +45,7 @@ public class Enemy extends SpriteAnimation {
                     m_y += speed*3;
                 }
             }
+            if( m_y> 1000 ) state= STATE_OUT;
         }
         void Attack( ) {
         // 공격하는로직

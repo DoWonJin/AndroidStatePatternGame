@@ -8,6 +8,6 @@ public class Player extends SpriteAnimation {
         public Player ( Bitmap bitmap) {
             super(bitmap);
             this.initSpriteData( 3, 6);
-            this.setPosition(600, 400);
+            this.setPosition(600, 1200);
         }
 }
