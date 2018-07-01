@@ -25,6 +25,8 @@ public class Enemy extends SpriteAnimation {
         Bitmap m_bitmap;
         Rect m_BoundBox= new Rect( ); //충돌계산을 위한 Rect박스
 
+        long LastShoot= System.currentTimeMillis( );
+
         public Enemy(Bitmap bitmap) {
             super(bitmap);
             m_bitmap = bitmap;
@@ -58,12 +60,18 @@ public class Enemy extends SpriteAnimation {
             if( m_x<0 || m_x > AppManager.getInstance().getDeviceSize().x) state= STATE_OUT;
         }
         void Attack( ) {
-        // 공격하는로직
+            // 공격하는로직
+            if(System.currentTimeMillis( )-LastShoot>= 1000) {
+                LastShoot= System.currentTimeMillis( );
+            // 미사일발사로직
+            AppManager.getInstance( ).m_gameState.m_enemmslist.add(new Missile_Enemy( m_x+40, m_y+m_bitmap.getHeight()-100));
+            }
         }
 
         @Override
         public void Update( long GameTime) {
             super.Update(GameTime);
+            Attack( );
             Move(); //Move를 실행시키므로써 위치m_x,m_y값을 업뎃.
             m_BoundBox.set( m_x, m_y, m_x+ m_bitmap.getWidth()/6
                     , m_y+ m_bitmap.getHeight());

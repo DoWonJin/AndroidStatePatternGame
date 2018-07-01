@@ -7,9 +7,9 @@ public class Enemy_3 extends Enemy {
 
         public Enemy_3( ) {
             super(AppManager.getInstance( ).getBitmap(R.drawable. enemy3));
-            this.initSpriteData(3, 6);
+            this.initSpriteData(m_bitmap.getWidth()/6,m_bitmap.getHeight(),4,6);
             hp= 10;
-            speed= 15f;
+            speed= 10f;
         }
         @Override
         public void Update( long GameTime) {

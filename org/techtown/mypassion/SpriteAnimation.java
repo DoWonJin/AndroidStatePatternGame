@@ -25,17 +25,18 @@ public class SpriteAnimation extends GraphicObject{
         m_frameTimer= 0;
         m_currentFrame= 0;
     }
-    public void initSpriteData(int _fps, int iFrame) {
+    public void initSpriteData(int _width, int _height,int _fps, int iFrame) {
         // 기본정보설정
 
-        m_spriteWidth= m_bitmap.getWidth()/6;
-        m_spriteHeight= m_bitmap.getWidth();
+        m_spriteWidth= _width;
+        m_spriteHeight= _height;
         m_rect.top= 0;  m_rect.bottom= m_spriteHeight;
         m_rect.left= 0; m_rect.right= m_spriteWidth;
         m_fps= 1000 / _fps;// 밀리초단위프레임
         m_iFrames= iFrame;
     }
-
+    public int getBitmapWidth() { return (int)m_bitmap.getWidth();}
+    public int getBitmapHeight(){return (int)m_bitmap.getHeight();}
     @Override
     public void Draw(Canvas canvas) {
         Rect dest= new Rect( m_x, m_y, m_x+ m_spriteWidth,

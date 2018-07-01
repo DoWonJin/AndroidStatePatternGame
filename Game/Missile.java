@@ -22,7 +22,7 @@ public class Missile extends GraphicObject {
             m_msl = bitmap;
         }
     public void Update( ) {
-        if(m_y< 50) state= STATE_OUT;
+        if(m_y< 10) state= STATE_OUT;
         m_BoundBox.left= m_x;
         m_BoundBox.top= m_y;
         m_BoundBox.right= m_x+ m_msl.getWidth();

@@ -11,8 +11,8 @@ import org.techtown.mypassion.GraphicObject;
 import org.techtown.mypassion.R;
 
 public class BackGround extends GraphicObject{
-        static final float SCROLL_SPEED= 40f;
-        static final float SCROLL_SPEED_2= 40f;
+        static final float SCROLL_SPEED= 60f;
+        static final float SCROLL_SPEED_2= 60f;
         private float m_scroll=-3000;
         private float m_scroll_2=-3000;
         Bitmap m_bitmap;

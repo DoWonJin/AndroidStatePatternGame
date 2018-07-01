@@ -9,6 +9,8 @@ import android.graphics.Point;
 import android.view.Display;
 import android.view.WindowManager;
 
+import Game.GameState;
+
 public class AppManager{
 
         private GameView m_gameView;
@@ -35,7 +37,7 @@ public class AppManager{
         public Bitmap getBitmap(int r) {
             return BitmapFactory.decodeResource( m_resources, r);
         }
-
+        public GameState m_gameState;
         private static AppManager s_instance;
 
         public static AppManager getInstance( ) {

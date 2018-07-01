@@ -9,7 +9,7 @@ public class Enemy_1 extends Enemy {
 
         public Enemy_1( ) {
             super(AppManager.getInstance( ).getBitmap(R.drawable. enemy1));
-            this.initSpriteData(3, 6);
+            this.initSpriteData(m_bitmap.getWidth()/6,m_bitmap.getHeight(),4,6);
             hp= 10;
             speed= 10f;
         }
