@@ -1,0 +1,20 @@
+package Game;
+
+import android.graphics.Bitmap;
+
+import org.techtown.mypassion.AppManager;
+import org.techtown.mypassion.R;
+
+public class Enemy_1 extends Enemy {
+
+        public Enemy_1( ) {
+            super(AppManager.getInstance( ).getBitmap(R.drawable. enemy1));
+            this.initSpriteData(3, 6);
+            hp= 10;
+            speed= 10f;
+        }
+        @Override
+        public void Update( long GameTime) {
+            super.Update(GameTime);
+        }
+}
